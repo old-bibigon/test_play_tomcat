@@ -30,3 +30,12 @@
 #    key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].ansible_host }}') }}"
 #    hash_host: false
 #  loop: "{{ groups.backupers |flatten(levels=1) }}"
+
+- name: отключаем проверку ssh
+  blockinfile:
+    path: ~/.ssh/config
+    create: yes
+    marker: "# {mark} disable for backuper"
+    block: |
+      Host {{ groups.backupers | join(' ') }}
+        StrictHostKeyChecking no
