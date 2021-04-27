@@ -1,0 +1,47 @@
+---
+
+- name: "bootstrap"
+  hosts: all
+  roles:
+    - bootstrap
+    - firewall
+  become: True
+
+
+- name: "Веб сервер"
+  hosts: nginx
+  become: True
+  roles: 
+    - nginx
+  vars:
+    tomcat_servers: "{{ groups['tomcat'] }}"
+    tomcat_port: 8080
+
+
+- name: "Tomcat"
+  hosts: tomcat
+  become: True
+  roles: 
+    - jenkins_war
+
+
+- name: 'Master сервер backup'
+  hosts: backuper_master
+  become: True
+  roles: 
+    - backuper_master
+
+- name: 'сервера с каких бекапить'
+  hosts: backupers
+  become: True
+  roles: 
+    - backuper
+
+
+- name: "завершение"
+  hosts: all
+  become: True
+  tasks:
+    # костыль, для netfilter
+    - name: сохраняем файрвол
+      shell: /usr/sbin/netfilter-persistent save

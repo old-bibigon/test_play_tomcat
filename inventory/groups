@@ -1,0 +1,12 @@
+[tomcat]
+node2
+
+[nginx]
+node1
+
+
+[backuper_master]
+node2
+
+[backupers]
+node1
