@@ -1,0 +1,4 @@
+galaxy_info:
+  role_name: firewall
+  author: Pavel Sergeev
+  description: блокировка всего через iptables

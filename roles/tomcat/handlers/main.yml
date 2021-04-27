@@ -1,0 +1,9 @@
+---
+
+- name: restart tomcat
+  become: yes
+  service: name=tomcat9 state=restarted
+
+- name: start tomcat
+  become: yes
+  service: name=tomcat9 state=started

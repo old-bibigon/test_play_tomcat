@@ -1,0 +1,4 @@
+galaxy_info:
+  role_name: backuper_master
+  author: Pavel Sergeev
+  description: настройка master хоста для бекапа

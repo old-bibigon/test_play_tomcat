@@ -1,0 +1,8 @@
+# каталог для jenkins
+jenkins_tomcat_home: "/var/lib/tomcat9/webapps"
+
+# версия
+jenkins_version: "latest"
+
+# url для скачивания war
+jenkins_war_url: "https://get.jenkins.io/war-stable/{{ jenkins_version }}/jenkins.war"

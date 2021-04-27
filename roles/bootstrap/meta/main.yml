@@ -1,0 +1,4 @@
+galaxy_info:
+  role_name: bootstrap
+  author: Pavel Sergeev
+  description: нулевые настройки vagrant

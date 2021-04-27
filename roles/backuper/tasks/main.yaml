@@ -1,0 +1,9 @@
+- name: ставим rsync
+  apt: pkg=rsync update_cache=yes cache_valid_time=3600
+
+- name: закидываем ssh ключ
+  authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file', 'keys/backuper.pub') }}"
+#    key: "{{ backup_ssh_key_pub }}"

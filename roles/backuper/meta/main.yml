@@ -1,0 +1,4 @@
+galaxy_info:
+  role_name: backuper
+  author: Pavel Sergeev
+  description: подготовка хоста для бекапа с него

@@ -1,0 +1,20 @@
+#!/bin/bash
+#делаем бекапы других компов
+
+#корневой каталог для бекапов
+backup_dir="/home/backup/backups"
+
+#кусок даты для уникальности
+date_now=`date +%u`
+
+#out_dir="${backup_dir}/${host_name}/${date_now}/${back_dir}"
+
+{% for host in groups['backupers'] %}
+  {%+ for back_dir in hostvars[host].backup_dirs %}
+
+out_dir="${backup_dir}/{{ host }}/${date_now}/{{back_dir}}"
+mkdir -p "${out_dir}"
+rsync -avHP --delete --numeric-ids "root@{{ host }}:{{ back_dir }}" "${out_dir}"
+
+  {% endfor %}
+{% endfor %}

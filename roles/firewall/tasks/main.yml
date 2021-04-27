@@ -1,0 +1,44 @@
+- name: устанавливаем iptables-persistent
+  apt: pkg="iptables-persistent" update_cache=yes cache_valid_time=3600
+
+- name: разрешаем ssh
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "22"
+    jump: ACCEPT
+
+- name: разрешаем ответные соединения
+  iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+
+- name: разрешаем ответные соединения
+  iptables:
+    chain: INPUT
+    jump: ACCEPT
+    in_interface: lo
+
+- name: отрубаем INPUT
+  iptables:
+    chain: INPUT
+    policy: DROP
+
+- name: отрубаем FORWARD
+  iptables:
+    chain: FORWARD
+    policy: DROP
+
+
+- name: отрубаем INPUT ipv6
+  iptables:
+    chain: INPUT
+    policy: DROP
+    ip_version: ipv6
+
+- name: отрубаем FORWARD ipv6
+  iptables:
+    chain: FORWARD
+    policy: DROP
+    ip_version: ipv6

@@ -1,0 +1,10 @@
+---
+
+- include: etckeeper.yml
+
+- include: hosts.yml
+
+- include: sshd.yml
+
+- include: is_play.yml
+  when: is_play == True

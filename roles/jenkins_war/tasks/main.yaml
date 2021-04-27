@@ -1,0 +1,42 @@
+---
+
+- name: Получаем sha256 для jenkins
+  uri:
+    url: "{{ jenkins_war_url }}.sha256"
+    return_content: yes
+  register: jenkins_war_sha256
+
+- name: парсим sha256
+  set_fact: jenkins_war_sha256="{{ jenkins_war_sha256.content.split() | first }}"
+
+- name: Скачиваем jenkins
+  get_url:
+    url: "{{ jenkins_war_url }}"
+    dest: "{{ jenkins_tomcat_home }}/jenkins.war"
+    checksum: "sha256:{{ jenkins_war_sha256 }}"
+  notify: restart tomcat
+
+- name: Настройка tomcat
+  blockinfile:
+    path: /etc/default/tomcat9
+    marker: "# {mark} ANSIBLE MANAGED BLOCK jenkins"
+    block: |
+      JAVA_OPTS="${JAVA_OPTS} -DJENKINS_HOME={{ jenkins_tomcat_home }}/jenkins "
+  notify: restart tomcat
+
+- name: Flush handlers
+  meta: flush_handlers  
+
+- name: ждём пока распакуется war
+  stat:
+    path: "{{ jenkins_tomcat_home }}/jenkins/secrets/initialAdminPassword"
+  register: initpass_file
+  until: initpass_file.stat.exists
+  retries: 10
+  delay: 5
+
+- name: Копируем файл с паролем
+  fetch:
+    src: "{{ jenkins_tomcat_home }}/jenkins/secrets/initialAdminPassword"
+    dest: _initial_password.secret
+    flat: yes

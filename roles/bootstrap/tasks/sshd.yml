@@ -1,0 +1,15 @@
+---
+
+- name: "Разрешаем логин для root"
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      PermitRootLogin prohibit-password
+  notify: restart ssh
+
+- name: копируем публичные ключи на хост
+  authorized_key:
+    user: "{{ ansible_user_id }}"
+    state: present
+    key: "{{ lookup('file', item ) }}"
+  loop: "{{ lookup('fileglob', 'keys/ssh/*.pub', wantlist=True) }}"

@@ -1,0 +1,7 @@
+dependencies:
+ - { role: tomcat }
+
+galaxy_info:
+  role_name: jenkins_war
+  author: Pavel Sergeev
+  description: установка jenkins.war в tomcat

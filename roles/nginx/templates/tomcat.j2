@@ -1,0 +1,48 @@
+server {
+
+        listen   443 ssl;
+        listen   80;
+
+        server_name  tomcat.local;
+        access_log  /var/log/nginx/tomcat.access.log;
+
+        allow all;
+
+#        ssl_certificate /etc/nginx/ssl/tomcat.ru.crt;
+#        ssl_certificate_key /etc/nginx/ssl/tomcat.ru.key;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; 
+        ssl_ciphers 'HIGH:!aNULL:!MD5:!kEDH';
+        add_header Strict-Transport-Security "max-age=172800; includeSubdomains;";
+
+        location /.well-known/acme-challenge/ {
+            root /var/www/sert;
+        }
+
+        location / {
+            proxy_pass         http://tomcat;
+            proxy_redirect     off;
+
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            #proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;
+
+            client_max_body_size       20m;
+            client_body_buffer_size    128k;
+
+            client_body_temp_path      /var/lib/nginx/tomcat_client_body_temp;
+
+            proxy_connect_timeout      70;
+            proxy_send_timeout         90;
+            proxy_read_timeout         90;
+#            proxy_send_lowat           12000;
+
+            proxy_buffer_size          4k;
+            proxy_buffers              4 32k;
+            proxy_busy_buffers_size    64k;
+            proxy_temp_file_write_size 64k;
+
+            proxy_temp_path            /var/lib/nginx/tomcat_proxy_temp;
+
+            charset  utf-8;
+    }
+}
