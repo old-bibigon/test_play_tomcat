@@ -20,6 +20,12 @@
     jump: ACCEPT
     in_interface: lo
 
+- name: разрешаем ответные соединения
+  iptables:
+    chain: INPUT
+    jump: ACCEPT
+    protocol: icmp
+
 - name: отрубаем INPUT
   iptables:
     chain: INPUT
