@@ -1,5 +1,5 @@
 - name: ставим пакеты
-  apt: pkg={{ item }} update_cache=yes cache_valid_time=3600
+  package: name={{ item }} 
   loop:
     - nginx
 
@@ -7,44 +7,31 @@
   file:
     dest: /etc/nginx/ssl/
     state: directory
-    owner: www-data
+    owner: nginx
     mode: 0640
 
 - name: основной конфиг nginx
   template: 
     src: nginx.conf.j2 
     dest: /etc/nginx/nginx.conf
-    owner: www-data
+    owner: nginx
     mode: 0640
-  notify: restart nginx
-
-- name: удаляем конфиг nginx
-  file: path=/etc/nginx/sites-enabled/default state=absent
   notify: restart nginx
 
 - name: апстрим для сайтов
   template: 
     src: 0upstreams.conf.j2 
     dest: /etc/nginx/conf.d/0upstreams.conf
-    owner: www-data
+    owner: nginx
     mode: 0640
   notify: restart nginx
 
 - name: копируем конфиги сайтов
   template: 
     src: "{{ item }}.j2" 
-    dest: "/etc/nginx/sites-available/{{ item }}"
-    owner: www-data
+    dest: "/etc/nginx/conf.d/{{ item }}.conf"
+    owner: nginx
     mode: 0640
-  notify: restart nginx
-  loop:
-    - tomcat
-
-- name: подключаем сайты nginx
-  file:
-    src: /etc/nginx/sites-available/{{ item }}
-    dest: /etc/nginx/sites-enabled/{{ item }}
-    state: link
   notify: restart nginx
   loop:
     - tomcat

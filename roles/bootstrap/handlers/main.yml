@@ -1,4 +1,4 @@
 ---
 - name: restart ssh
-  service: name=ssh state=restarted enabled=yes
+  service: name=sshd state=restarted enabled=yes
   become: True

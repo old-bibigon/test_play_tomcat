@@ -1,11 +1,11 @@
 ---
 
-- name: устанавливаем из пакета
-  apt: pkg=tomcat9 state=present update_cache=yes
+#- name: устанавливаем из пакета
+#  yum: pkg=tomcat9 state=present update_cache=yes
 
 - name: настройка tomcat
   blockinfile:
-    path: /etc/default/tomcat9
+    path: "/opt/tomcat/bin/setenv.sh"
     marker: "# {mark} ANSIBLE MANAGED BLOCK ipv4"
     block: |
       JAVA_OPTS="${JAVA_OPTS} -Djava.net.preferIPv4Stack=True "

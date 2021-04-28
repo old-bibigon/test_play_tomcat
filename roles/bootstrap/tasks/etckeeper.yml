@@ -1,5 +1,6 @@
 ---
 
-- name: устанавливаем etckeeper
-  apt: pkg=etckeeper update_cache=yes cache_valid_time=3600
-  become: True
+#не нашёлся
+#- name: устанавливаем etckeeper
+#  yum: pkg=etckeeper update_cache=yes
+#  become: True

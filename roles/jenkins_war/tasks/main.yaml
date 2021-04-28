@@ -18,7 +18,7 @@
 
 - name: Настройка tomcat
   blockinfile:
-    path: /etc/default/tomcat9
+    path: "/opt/tomcat/bin/setenv.sh"
     marker: "# {mark} ANSIBLE MANAGED BLOCK jenkins"
     block: |
       JAVA_OPTS="${JAVA_OPTS} -DJENKINS_HOME={{ jenkins_tomcat_home }}/jenkins "

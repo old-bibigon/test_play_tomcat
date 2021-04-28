@@ -1,0 +1,7 @@
+tomcat_users:
+  - username: "tomcat"
+    password: "{{ tomcat_admin_pass }}"
+    roles: "tomcat,admin,manager,manager-gui"
+  - username: "exampleuser"
+    password: "{{ tomcat_user_pass }}"
+    roles: "tomcat"        

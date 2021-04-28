@@ -1,7 +1,7 @@
 #создаём юзера и ключ
 
 - name: ставим rsync
-  apt: pkg=rsync update_cache=yes cache_valid_time=3600
+  package: name=rsync
 
 - name: Создаём ssh-ключ для бекапа
   user:

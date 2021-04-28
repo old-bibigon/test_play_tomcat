@@ -19,7 +19,8 @@ node1 ansible_host=10.13.0.21 ansible_user='vagrant'
 node2 ansible_host=10.13.0.22 ansible_user='vagrant'
 ```
 
-Запускаем `ansible-playbook playbook.yml`
+Запускаем `ansible-playbook --ask-vault-pass playbook.yml `, 
+пароль: `p`
 
 если магия сработает, то jenkins будет доступен на `http://10.13.0.21/jenkins`,
 а ключ для запуска будет в файле `_initial_password.secret`
@@ -27,6 +28,13 @@ node2 ansible_host=10.13.0.22 ansible_user='vagrant'
 
 Скрипт бекапа лежит на `node2:/etc/cron.d/backup-other`, 
 сохраняет в /home/backup/, для работы отключил проверку подписи хоста по ssh
+
+
+## косяки ##
+
+- [ ] tomcat всегда перезагружается, 
+  т.к. переписывает zaxos.tomcat-ansible-role bin/setenv.sh, 
+  а tomcat и jenkins их потом меняют
 
 
 # Тестовое задание на позицию "Инженер" #

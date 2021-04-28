@@ -21,7 +21,15 @@
 - name: "Tomcat"
   hosts: tomcat
   become: True
+  vars:
+    tomcat_version: 9.0.45
+    
+    tomcat_permissions_production: True
+
+    jenkins_tomcat_home: "/opt/tomcat/webapps/"
+
   roles: 
+    - zaxos.tomcat-ansible-role
     - jenkins_war
 
 
@@ -37,11 +45,12 @@
   roles: 
     - backuper
 
-
 - name: "завершение"
   hosts: all
   become: True
   tasks:
-    # костыль, для netfilter
     - name: сохраняем файрвол
-      shell: /usr/sbin/netfilter-persistent save
+      shell: /usr/libexec/iptables/iptables.init save
+
+    - name: сохраняем файрвол
+      shell: /usr/libexec/iptables/ip6tables.init save
