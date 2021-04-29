@@ -1,0 +1,16 @@
+- name: тестируем доступность
+  hosts: node2
+  tasks:
+    - name: Подключаемся к Jenkins через nginx
+      uri:
+        url: http://10.13.0.21/jenkins/
+        return_content: yes
+        status_code: [200, 403]
+      register: webpage
+
+#    - debug: var=webpage
+
+    - name: Проверяем что Jenkins доступен через nginx
+      assert:
+        that:
+          - "'x_jenkins' in webpage"
