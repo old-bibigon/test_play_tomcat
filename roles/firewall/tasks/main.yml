@@ -7,34 +7,40 @@
     protocol: tcp
     destination_port: "22"
     jump: ACCEPT
+  notify: iptables save
 
 - name: разрешаем ответные соединения
   iptables:
     chain: INPUT
     ctstate: ESTABLISHED,RELATED
     jump: ACCEPT
+  notify: iptables save
 
 - name: разрешаем ответные соединения
   iptables:
     chain: INPUT
     jump: ACCEPT
     in_interface: lo
+  notify: iptables save
 
 - name: разрешаем ответные соединения
   iptables:
     chain: INPUT
     jump: ACCEPT
     protocol: icmp
+  notify: iptables save
 
 - name: отрубаем INPUT
   iptables:
     chain: INPUT
     policy: DROP
+  notify: iptables save
 
 - name: отрубаем FORWARD
   iptables:
     chain: FORWARD
     policy: DROP
+  notify: iptables save
 
 
 - name: отрубаем INPUT ipv6
@@ -42,9 +48,11 @@
     chain: INPUT
     policy: DROP
     ip_version: ipv6
+  notify: iptables save
 
 - name: отрубаем FORWARD ipv6
   iptables:
     chain: FORWARD
     policy: DROP
     ip_version: ipv6
+  notify: iptables save

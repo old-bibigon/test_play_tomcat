@@ -12,6 +12,7 @@
   hosts: nginx
   become: True
   roles: 
+    - firewall
     - nginx
   vars:
     tomcat_servers: "{{ groups['tomcat'] }}"
@@ -22,6 +23,7 @@
   hosts: tomcat
   become: True
   roles: 
+    - firewall
     - jenkins_war
 
 
@@ -36,12 +38,3 @@
   become: True
   roles: 
     - backuper
-
-
-- name: "завершение"
-  hosts: all
-  become: True
-  tasks:
-    # костыль, для netfilter
-    - name: сохраняем файрвол
-      shell: /usr/sbin/netfilter-persistent save

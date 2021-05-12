@@ -4,3 +4,4 @@
     protocol: tcp
     destination_port: "8080"
     jump: ACCEPT
+  notify: iptables save

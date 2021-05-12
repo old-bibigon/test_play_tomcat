@@ -1,0 +1,15 @@
+---
+- name: сохраняем файрвол ipv4
+  community.general.iptables_state:
+    state: saved
+    path: /etc/iptables/rules.v4
+  become: True
+  listen: iptables save
+
+- name: сохраняем файрвол ipv6
+  community.general.iptables_state:
+    ip_version: ipv6
+    state: saved
+    path: /etc/iptables/rules.v6
+  become: True
+  listen: iptables save
